@@ -1,9 +1,10 @@
 from django.contrib.auth.models import User
 from rest_framework import viewsets
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, DestroyAPIView
+from rest_framework.permissions import IsAuthenticated
 
-from .models import Menu, Booking
-from .serializers import MenuModelSerializer, BookingModelSerializer, UserModelSerializer
+from .models import MenuItem, Booking
+from .serializers import MenuItemModelSerializer, BookingModelSerializer, UserModelSerializer
 
 
 # User
@@ -18,12 +19,13 @@ class BookingViewSet (viewsets.ModelViewSet):
     queryset = Booking.objects.all()
 
 
-# Menu
+# MenuItem
 class MenuItemsView(ListCreateAPIView):
-    queryset = Menu.objects.all()
-    serializer_class = MenuModelSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = MenuItem.objects.all()
+    serializer_class = MenuItemModelSerializer
 
 
 class SingleMenuItemView (RetrieveUpdateAPIView, DestroyAPIView):
-    queryset = Menu.objects.all()
-    serializer_class = MenuModelSerializer
+    queryset = MenuItem.objects.all()
+    serializer_class = MenuItemModelSerializer
